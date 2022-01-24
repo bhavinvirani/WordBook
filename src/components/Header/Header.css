@@ -1,0 +1,35 @@
+.title {
+  font-size: 7vw;
+  text-transform: uppercase;
+  font-family: "Be Vietnam Pro", sans-serif;
+  user-select: none;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-direction: column;
+  height: 35vh;
+  width: 100%;
+}
+
+.search,
+.select {
+  width: 47%;
+}
+
+.input {
+  display: flex;
+  width: 43vw;
+  justify-content: space-between;
+}
+
+@media (max-width: 900px) {
+  .header {
+    justify-content: space-evenly;
+  }
+  .title {
+    font-size: 11vw;
+  }
+}
