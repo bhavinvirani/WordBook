@@ -19,17 +19,22 @@ const Header = ({ category, setCategory, word, setWord, lightMode }) => {
     setWord("");
   };
 
+  const handleWordChange = (e) => {
+    setWord(e.target.value)
+  }
+
   return (
     <div className="header">
       <span className="title">{word ? word : "Word Book"}</span>
       <div className="input">
         <ThemeProvider theme={darkTheme}>
+          
           <TextField
             label="Search a Word"
             className="search"
             variant="standard"
             value={word}
-            onChange={(e) => setWord(e.target.value)}
+            onChange={(e) => handleWordChange(e)}
           />
 
           <TextField

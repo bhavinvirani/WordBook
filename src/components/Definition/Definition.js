@@ -1,7 +1,8 @@
+import { CircularProgress, LinearProgress } from "@mui/material";
 import React from "react";
 import "./Definition.css";
 
-const Definition = ({ word, meanings, category, lightMode }) => {
+const Definition = ({ word, meanings, category, lightMode, isLoading }) => {
   return (
     <div className="meaning">
       {meanings[0] && word && category === "en" && (
@@ -17,6 +18,10 @@ const Definition = ({ word, meanings, category, lightMode }) => {
 
       {word === "" ? (
         <span className="subTitle">Start by typing a word in Search</span>
+      ) : isLoading ? (
+        <div style={{height:"100%",display:"flex", alignItems:"center", justifyContent:"center"}}>
+          <LinearProgress color="secondary"/>
+        </div>
       ) : (
         meanings.map((mean) =>
           mean.meanings.map((item) =>

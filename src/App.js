@@ -17,14 +17,24 @@ function App() {
       const data = await axios.get(
         `https://api.dictionaryapi.dev/api/v2/entries/${category}/${word}`
       );
+      console.log(word, data.data);
       setMeanings(data.data);
     } catch (e) {
-      console.log(e);
+      if (e.title === "No Definitions Found") {
+        console.log("word Not Found");
+      }
+      console.log("error", e);
     }
   };
 
   useEffect(() => {
-    dictionaryApi();
+    const timeoutId = setTimeout(() => {
+      console.log(`I can see you're not typing. I can use "${word}" now!`);
+      {
+        word.length > 0 && dictionaryApi();
+      }
+    }, 800);
+    return () => clearTimeout(timeoutId);
   }, [word, category]);
 
   return (
@@ -61,6 +71,7 @@ function App() {
           setWord={setWord}
           lightMode={lightMode}
         />
+
         {meanings && (
           <Definition
             word={word}
