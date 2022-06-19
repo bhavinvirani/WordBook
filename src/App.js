@@ -4,7 +4,6 @@ import "./App.css";
 import { Container, Switch } from "@mui/material";
 import Header from "./components/Header/Header";
 import Definition from "./components/Definition/Definition";
-
 function App() {
   const [word, setWord] = useState("");
   const [category, setCategory] = useState("en");
@@ -12,30 +11,47 @@ function App() {
   const [lightMode, setLightMode] = useState(false);
 
   const dictionaryApi = async () => {
-    // inital state []
     try {
       const data = await axios.get(
         `https://api.dictionaryapi.dev/api/v2/entries/${category}/${word}`
       );
-      console.log(word, data.data);
+      console.log("Fetched",word);   
       setMeanings(data.data);
     } catch (e) {
-      if (e.title === "No Definitions Found") {
-        console.log("word Not Found");
-      }
-      console.log("error", e);
+      console.log("error||", e);
     }
   };
 
   useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      console.log(`I can see you're not typing. I can use "${word}" now!`);
-      {
-        word.length > 0 && dictionaryApi();
-      }
-    }, 800);
-    return () => clearTimeout(timeoutId);
-  }, [word, category]);
+    updateDebounceWord(word);
+  }, [word]);
+
+  const updateDebounceWord = debounce(() => {
+    {
+      word.length > 1 && dictionaryApi();
+    }
+  });
+
+  let timeoutId = null;
+  function debounce(cb, delay = 500) {
+    return (...args) => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        cb(...args);
+      }, delay);
+    };
+  }
+
+  // useEffect(() => {
+  //   let timeoutId;
+  //   clearTimeout(timeoutId);
+  //   timeoutId = setTimeout(() => {
+  //     console.log(`I can see you're not typing. I can use "${word}" now!`);
+  //     {
+  //       word.length > 1 && dictionaryApi();
+  //     }
+  //   }, 800);
+  // }, [word, category]);
 
   return (
     <div
